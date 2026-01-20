@@ -69,14 +69,17 @@ nav:
     - PIR (ตรวจจับการเคลื่อนไหว): sensors/pir.md
     - เซ็นเซอร์แสง (LDR/BH1750): sensors/light.md
     - DS18B20 (อุณหภูมิกันน้ำ): sensors/temperature.md
-  - จอแสดงผล:
+    - IMU (MPU6050/GY-521): sensors/imu.md
+  - จอแสดงผลและเสียง:
     - LCD 16x2/20x4: displays/lcd.md
     - OLED (SSD1306/SH1106): displays/oled.md
     - TFT Display: displays/tft.md
+    - เครื่องเล่น MP3 (DFPlayer Mini): audio/dfplayer.md
   - การสื่อสาร:
     - Bluetooth (HC-05/HC-06): communication/bluetooth.md
     - WiFi (ESP8266/ESP32): communication/wifi.md
     - RF Module (NRF24L01): communication/rf.md
+    - รีโมท FlySky (iBus): communication/ibus_flysky.md
   - มอเตอร์และการควบคุม:
     - DC Motor (L298N): motors/dc_motor.md
     - Servo Motor: motors/servo.md
@@ -85,3 +88,7 @@ nav:
     - Relay Module: power/relay.md
     - Power Supplies: power/supplies.md
     - Battery Management: power/battery.md
+    - การวัดแรงดัน 3S/4S: power/voltage_divider_pro.md
+  - รากฐานหุ่นยนต์ (Robotics Foundation):
+    - Binary Data Sync: communication/binary_structs.md
+    - ESP32 MAVLink Bridge: networking/mavlink_bridge.md
