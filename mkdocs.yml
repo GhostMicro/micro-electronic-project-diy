@@ -1,0 +1,87 @@
+site_name: โมดูลอิเล็กทรอนิกส์ DIY
+site_description: คู่มือการใช้งานโมดูลอิเล็กทรอนิกส์กับ Arduino, ESP32, STM32
+site_author: GhostMicro
+site_url: https://ghostmicro.github.io/micro-project-diy/
+
+theme:
+  name: material
+  language: th
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search:
+      lang: th
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+
+extra_css:
+  - assets/css/extra.css
+
+nav:
+  - หน้าแรก: index.md
+  - เซ็นเซอร์:
+    - DHT11/DHT22 (อุณหภูมิ/ความชื้น): sensors/dht.md
+    - HC-SR04 (อัลตราโซนิก): sensors/ultrasonic.md
+    - PIR (ตรวจจับการเคลื่อนไหว): sensors/pir.md
+    - เซ็นเซอร์แสง (LDR/BH1750): sensors/light.md
+    - DS18B20 (อุณหภูมิกันน้ำ): sensors/temperature.md
+  - จอแสดงผล:
+    - LCD 16x2/20x4: displays/lcd.md
+    - OLED (SSD1306/SH1106): displays/oled.md
+    - TFT Display: displays/tft.md
+  - การสื่อสาร:
+    - Bluetooth (HC-05/HC-06): communication/bluetooth.md
+    - WiFi (ESP8266/ESP32): communication/wifi.md
+    - RF Module (NRF24L01): communication/rf.md
+  - มอเตอร์และการควบคุม:
+    - DC Motor (L298N): motors/dc_motor.md
+    - Servo Motor: motors/servo.md
+    - Stepper Motor: motors/stepper.md
+  - พลังงานและรีเลย์:
+    - Relay Module: power/relay.md
+    - Power Supplies: power/supplies.md
+    - Battery Management: power/battery.md
