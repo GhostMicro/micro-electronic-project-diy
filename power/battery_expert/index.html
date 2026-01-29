@@ -1,0 +1,2575 @@
+
+<!doctype html>
+<html lang="th" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="คู่มือการใช้งานโมดูลอิเล็กทรอนิกส์กับ Arduino, ESP32, STM32">
+      
+      
+        <meta name="author" content="GhostMicro">
+      
+      
+        <link rel="canonical" href="https://ghostmicro.github.io/micro-project-diy/power/battery_expert/">
+      
+      
+        <link rel="prev" href="../battery/">
+      
+      
+        <link rel="next" href="../voltage_divider_pro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>เจาะลึกระบบแบตเตอรี่ (Battery Expert) - โมดูลอิเล็กทรอนิกส์ DIY</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#battery-expert-guide" class="md-skip">
+          ข้ามไปที่เนื้อหา
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="หัวข้อ">
+    <a href="../.." title="โมดูลอิเล็กทรอนิกส์ DIY" class="md-header__button md-logo" aria-label="โมดูลอิเล็กทรอนิกส์ DIY" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            โมดูลอิเล็กทรอนิกส์ DIY
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              เจาะลึกระบบแบตเตอรี่ (Battery Expert)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="ค้นหา" placeholder="ค้นหา" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="ค้นหา">
+        
+        <button type="reset" class="md-search__icon md-icon" title="ล้าง" aria-label="ล้าง" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            กำลังเริ่มต้นการค้นหา
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="แท็บ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  หน้าแรก
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sensors/dht/" class="md-tabs__link">
+          
+  
+  
+  เซ็นเซอร์
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../displays/lcd/" class="md-tabs__link">
+          
+  
+  
+  จอแสดงผลและเสียง
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../communication/bluetooth/" class="md-tabs__link">
+          
+  
+  
+  การสื่อสาร
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../motors/dc_motor/" class="md-tabs__link">
+          
+  
+  
+  มอเตอร์และการควบคุม
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../relay/" class="md-tabs__link">
+          
+  
+  
+  พลังงานและรีเลย์
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../projects/camping_alarm/" class="md-tabs__link">
+          
+  
+  
+  🚀 โปรเจกต์ DIY (Projects)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../communication/binary_structs/" class="md-tabs__link">
+          
+  
+  
+  รากฐานหุ่นยนต์ (Robotics Foundation)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../inventory/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  📦 คลังแสง (Inventory)
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ตัวนำทาง" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="โมดูลอิเล็กทรอนิกส์ DIY" class="md-nav__button md-logo" aria-label="โมดูลอิเล็กทรอนิกส์ DIY" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    โมดูลอิเล็กทรอนิกส์ DIY
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าแรก
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เซ็นเซอร์
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    เซ็นเซอร์
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/dht/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DHT11/DHT22 (อุณหภูมิ/ความชื้น)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/ultrasonic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HC-SR04 (อัลตราโซนิก)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/pir/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PIR (ตรวจจับการเคลื่อนไหว)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/light/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เซ็นเซอร์แสง (LDR/BH1750)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/temperature/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DS18B20 (อุณหภูมิกันน้ำ)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sensors/imu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IMU (MPU6050/GY-521)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    จอแสดงผลและเสียง
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    จอแสดงผลและเสียง
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../displays/lcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LCD 16x2/20x4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../displays/oled/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OLED (SSD1306/SH1106)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../displays/tft.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TFT Display
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../audio/dfplayer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เครื่องเล่น MP3 (DFPlayer Mini)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การสื่อสาร
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    การสื่อสาร
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../communication/bluetooth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bluetooth (HC-05/HC-06)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../communication/wifi.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    WiFi (ESP8266/ESP32)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../communication/rf.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RF Module (NRF24L01)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../communication/ibus_flysky/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    รีโมท FlySky (iBus)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    มอเตอร์และการควบคุม
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    มอเตอร์และการควบคุม
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../motors/dc_motor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DC Motor (L298N)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../motors/servo.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servo Motor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../motors/stepper.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stepper Motor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    พลังงานและรีเลย์
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    พลังงานและรีเลย์
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relay Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supplies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Supplies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../battery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Battery Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เจาะลึกระบบแบตเตอรี่ (Battery Expert)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เจาะลึกระบบแบตเตอรี่ (Battery Expert)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-1s-2s-3s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ 1. การเปรียบเทียบระบบ 1S, 2S และ 3S
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 2. วิเคราะห์จากอุปกรณ์ (จากภาพตัวอย่าง)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 2. วิเคราะห์จากอุปกรณ์ (จากภาพตัวอย่าง)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิเคราะห์ทางเทคนิค (Internal Architecture):
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="วิเคราะห์ทางเทคนิค (Internal Architecture):">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xh-3p-2s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📍 พินเอาต์ของขั้ว XH-3P (2S)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-2s-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 3. ไดอะแกรมการต่อวงจร 2S (Series) แบบดั้งเดิม
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-bms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ 4. คำถามยอดฮิต: การต่ออนุกรม "ต้องใช้ BMS ไหม?"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cell-1s-4s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ 5. ตารางสรุปโมดูลชาร์จตามจำนวน Cell (1S - 4S)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ 6. เจาะลึกความแรง (กระแส A) ของแต่ละบอร์ด
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏷️ 6. เจาะลึกความแรง (กระแส A) ของแต่ละบอร์ด">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1s-37v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 1S (3.7V - แบบขนาน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2s-74v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 2S (7.4V - แบบอนุกรม)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3s-111v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 3S (11.1V - แบบอนุกรม)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ 5. เจาะลึก "เบอร์โมดูล" ที่มีขายในท้องตลาด
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏷️ 5. เจาะลึก &#34;เบอร์โมดูล&#34; ที่มีขายในท้องตลาด">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ip2326-type-c-2s3s-boost-charger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏆 อันดับ 1: IP2326 (Type-C 2S/3S Boost Charger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tp5100-1s2s-buck-charger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🥈 อันดับ 2: TP5100 (1S/2S Buck Charger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📐 6. ไดอะแกรมการต่อวงจรแต่ละประเภท
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 6. ไดอะแกรมการต่อวงจรแต่ละประเภท">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1s-37v-parallel-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 1S (3.7V - Parallel) - สำหรับความจุสูง
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2s-74v-series-ghost-micro-v5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 2S (7.4V - Series) - สำหรับแรงดัน (Ghost Micro V5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4s-148v-168v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💎 ระบบ 4S (14.8V - 16.8V)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 7. ตารางสรุปขีดจำกัดกระแส (A) ของแต่ละบอร์ด
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 ข้อสรุปสำหรับคุณ:
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../voltage_divider_pro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การวัดแรงดัน 3S/4S
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🚀 โปรเจกต์ DIY (Projects)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🚀 โปรเจกต์ DIY (Projects)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/camping_alarm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เครื่องแจ้งเตือนผู้บุกรุก (Camping Alarm)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/led_controller_pro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    คอนโทรลเลอร์ไฟอัจฉริยะ (Smart LED Pro)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/battery_charger_diy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ชุดชาร์จแบตเตอรี่ DIY (1S-4S Charger)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    รากฐานหุ่นยนต์ (Robotics Foundation)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    รากฐานหุ่นยนต์ (Robotics Foundation)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../communication/binary_structs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Binary Data Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../networking/mavlink_bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ESP32 MAVLink Bridge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📦 คลังแสง (Inventory)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-1s-2s-3s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ 1. การเปรียบเทียบระบบ 1S, 2S และ 3S
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔌 2. วิเคราะห์จากอุปกรณ์ (จากภาพตัวอย่าง)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔌 2. วิเคราะห์จากอุปกรณ์ (จากภาพตัวอย่าง)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิเคราะห์ทางเทคนิค (Internal Architecture):
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="วิเคราะห์ทางเทคนิค (Internal Architecture):">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xh-3p-2s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📍 พินเอาต์ของขั้ว XH-3P (2S)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-2s-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎨 3. ไดอะแกรมการต่อวงจร 2S (Series) แบบดั้งเดิม
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-bms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛡️ 4. คำถามยอดฮิต: การต่ออนุกรม "ต้องใช้ BMS ไหม?"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-cell-1s-4s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ 5. ตารางสรุปโมดูลชาร์จตามจำนวน Cell (1S - 4S)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ 6. เจาะลึกความแรง (กระแส A) ของแต่ละบอร์ด
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏷️ 6. เจาะลึกความแรง (กระแส A) ของแต่ละบอร์ด">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1s-37v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 1S (3.7V - แบบขนาน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2s-74v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 2S (7.4V - แบบอนุกรม)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3s-111v-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔴 3S (11.1V - แบบอนุกรม)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏷️ 5. เจาะลึก "เบอร์โมดูล" ที่มีขายในท้องตลาด
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🏷️ 5. เจาะลึก &#34;เบอร์โมดูล&#34; ที่มีขายในท้องตลาด">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ip2326-type-c-2s3s-boost-charger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏆 อันดับ 1: IP2326 (Type-C 2S/3S Boost Charger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tp5100-1s2s-buck-charger" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🥈 อันดับ 2: TP5100 (1S/2S Buck Charger)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📐 6. ไดอะแกรมการต่อวงจรแต่ละประเภท
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📐 6. ไดอะแกรมการต่อวงจรแต่ละประเภท">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1s-37v-parallel-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 1S (3.7V - Parallel) - สำหรับความจุสูง
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2s-74v-series-ghost-micro-v5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟡 2S (7.4V - Series) - สำหรับแรงดัน (Ghost Micro V5)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4s-148v-168v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💎 ระบบ 4S (14.8V - 16.8V)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 7. ตารางสรุปขีดจำกัดกระแส (A) ของแต่ละบอร์ด
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 ข้อสรุปสำหรับคุณ:
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="battery-expert-guide">🔋 คู่มือผู้เชี่ยวชาญ: ระบบแบตเตอรี่และการชาร์จ (Battery Expert Guide)</h1>
+<p>การเลือกใช้แบตเตอรี่ Li-ion (3.7V) สำหรับงาน DIY มีความหลากหลายทั้งเรื่องของแรงดัน (Voltage) และกระแส (Current) เอกสารนี้จะสรุปความแตกต่างของระบบ 1S, 2S และ 3S เพื่อให้คุณเลือกใช้บอร์ดชาร์จและบอร์ดป้องกันได้อย่างถูกต้อง</p>
+<hr />
+<h2 id="1-1s-2s-3s">⚡ 1. การเปรียบเทียบระบบ 1S, 2S และ 3S</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ระบบ</th>
+<th style="text-align: left;">แรงดันเฉลี่ย (Normal)</th>
+<th style="text-align: left;">แรงดันสูงสุด (Fully Charged)</th>
+<th style="text-align: left;">พฤติกรรมการต่อ</th>
+<th style="text-align: left;">การใช้งานหลัก</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1S (1 Cell)</strong></td>
+<td style="text-align: left;">3.7V</td>
+<td style="text-align: left;">4.2V</td>
+<td style="text-align: left;">ขนาน (เพิ่มความจุ)</td>
+<td style="text-align: left;">ESP32, Arduino, เซ็นเซอร์</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2S (2 Cells)</strong></td>
+<td style="text-align: left;">7.4V</td>
+<td style="text-align: left;">8.4V</td>
+<td style="text-align: left;">อนุกรม (เพิ่มแรงดัน)</td>
+<td style="text-align: left;">มอเตอร์ L298N, หุ่นยนต์เล็ก</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3S (3 Cells)</strong></td>
+<td style="text-align: left;">11.1V</td>
+<td style="text-align: left;">12.6V</td>
+<td style="text-align: left;">อนุกรม (กำลังสูง)</td>
+<td style="text-align: left;">โดรน, หุ่นยนต์แขนกล</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2">🔌 2. วิเคราะห์จากอุปกรณ์ (จากภาพตัวอย่าง)</h2>
+<p><img alt="7.4V USB Charger" src="file:///home/devg/.gemini/antigravity/brain/683922ce-6a54-49d3-b1b5-769980e94001/uploaded_image_1768907724920.png" />
+<em>อ้างอิง: สายชาร์จ Li-ion 7.4V แบบ USB</em></p>
+<h3 id="internal-architecture">วิเคราะห์ทางเทคนิค (Internal Architecture):</h3>
+<ol>
+<li><strong>USB 5V to 8.4V Boost Converter:</strong> ภายในหัว USB จะมีวงจร Step-up (Boost) ที่ดันแรงดันจาก 5V ขึ้นไปที่ 8.4V เพื่อให้สูงพอที่จะชาร์จแบตเตอรี่ 2S (7.4V) ได้</li>
+<li><strong>CC/CV Charging Logic:</strong> มีไอซีควบคุมการชาร์จแบบ Constant Current / Constant Voltage เพื่อถนอมเซลล์แบตเตอรี่</li>
+<li><strong>XH-3P Balance Connector:</strong> สังเกตว่ามีสายไฟ 3 เส้น (3-Pin) ซึ่งทำหน้าที่ต่างกันดังนี้:</li>
+</ol>
+<h4 id="xh-3p-2s">📍 พินเอาต์ของขั้ว XH-3P (2S)</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">ตำแหน่ง</th>
+<th style="text-align: left;">สีสายไฟ (ทั่วไป)</th>
+<th style="text-align: left;">หน้าที่</th>
+<th style="text-align: left;">แรงดันอ้างอิง (เทียบ GND)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>ขวา (Pin 1)</strong></td>
+<td style="text-align: left;">แดง (Red)</td>
+<td style="text-align: left;">ขั้วบวกหลัก (B+)</td>
+<td style="text-align: left;">7.4V - 8.4V</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>กลาง (Pin 2)</strong></td>
+<td style="text-align: left;">เหลือง/ขาว</td>
+<td style="text-align: left;">จุดแยกเซลล์ (Center Tap)</td>
+<td style="text-align: left;">3.7V - 4.2V</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ซ้าย (Pin 3)</strong></td>
+<td style="text-align: left;">ดำ (Black)</td>
+<td style="text-align: left;">ขั้วลบหลัก (GND)</td>
+<td style="text-align: left;">0V</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-2s-series">🎨 3. ไดอะแกรมการต่อวงจร 2S (Series) แบบดั้งเดิม</h2>
+<p>เพื่อให้เห็นภาพการทำงานของ XH-3P กับแบตเตอรี่ 2 ก้อน:</p>
+<pre class="mermaid"><code>graph TD
+    subgraph Battery_2S
+        C1[Cell 1: 3.7V]
+        C2[Cell 2: 3.7V]
+    end
+
+    C1_P[+] -- Red Wire -- P1[XH-3P Pin 1: B+]
+    C1_N[-] -- White Wire -- P2[XH-3P Pin 2: Tap]
+    P2 -- Middle Tap -- C2_P[+]
+    C2_N[-] -- Black Wire -- P3[XH-3P Pin 3: GND]
+
+    style P1 fill:#f96,stroke:#333
+    style P2 fill:#fff,stroke:#333
+    style P3 fill:#333,stroke:#fff,color:#fff</code></pre>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>ทำไมต้องมีสายกลาง?</strong> สายกลางมีไว้เพื่อให้เครื่องชาร์จ (หรือสาย USB ตัวนี้) สามารถตรวจสอบแรงดันของแบตเตอรี่แต่ละก้อนแยกกันได้ เพื่อป้องกันไม่ให้ก้อนใดก้อนหนึ่งประจุไฟเกิน (Overcharge)</p>
+</blockquote>
+<hr />
+<h2 id="4-bms">🛡️ 4. คำถามยอดฮิต: การต่ออนุกรม "ต้องใช้ BMS ไหม?"</h2>
+<p><strong>คำตอบคือ: ต้องใช้ 100% ครับ (ยกเว้น 1S)</strong></p>
+<ul>
+<li><strong>ถ้าต่ออนุกรม (2S, 3S, 4S):</strong> หากไม่ใช้ BMS เครื่องชาร์จจะมองเห็นแค่แรงดันรวม (เช่น 8.4V) แต่มันจะไม่รู้เลยว่าก้อนที่ 1 อาจจะไฟเกิน (4.5V) และก้อนที่ 2 ไฟอ่อน (3.0V) ซึ่งจะทำให้ <strong>แบตเตอรี่ระเบิดหรือเสื่อมสภาพทันที</strong></li>
+<li><strong>ถ้าต่อขนาน (1S):</strong> ไม่จำเป็นต้องใช้ BMS (แต่ควรมีวงจรป้องกันพื้นฐาน) เพราะแรงดันของทุกก้อนจะถูกบังคับให้เท่ากันตลอดเวลาด้วยทางไฟฟ้า</li>
+</ul>
+<hr />
+<h2 id="5-cell-1s-4s">⚡ 5. ตารางสรุปโมดูลชาร์จตามจำนวน Cell (1S - 4S)</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">จำนวน Cell</th>
+<th style="text-align: left;">แรงดันชาร์จสูงสุด</th>
+<th style="text-align: left;">โมดูลที่แนะนำ (เบอร์ชิป)</th>
+<th style="text-align: left;">กระแสชาร์จ (A)</th>
+<th style="text-align: left;">ระบบ Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1S (1 Cell)</strong></td>
+<td style="text-align: left;">4.2V</td>
+<td style="text-align: left;"><strong>TP4056</strong> / <strong>IP2312</strong></td>
+<td style="text-align: left;">1A - 3A</td>
+<td style="text-align: left;">ไม่จำเป็น</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2S (2 Cells)</strong></td>
+<td style="text-align: left;">8.4V</td>
+<td style="text-align: left;"><strong>IP2326</strong> / <strong>TP5100</strong></td>
+<td style="text-align: left;">1A - 2A</td>
+<td style="text-align: left;">มีใน IP2326</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3S (3 Cells)</strong></td>
+<td style="text-align: left;">12.6V</td>
+<td style="text-align: left;"><strong>IP2326</strong> / <strong>ZXR3S</strong></td>
+<td style="text-align: left;">1A - 2A</td>
+<td style="text-align: left;">มีใน IP2326</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4S (4 Cells)</strong></td>
+<td style="text-align: left;">16.8V</td>
+<td style="text-align: left;"><strong>IP2326 (บางรุ่น)</strong> / <strong>XL4015 CC/CV</strong></td>
+<td style="text-align: left;">2A - 5A</td>
+<td style="text-align: left;">ต้องมี BMS แยก</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-a">🏷️ 6. เจาะลึกความแรง (กระแส A) ของแต่ละบอร์ด</h2>
+<h3 id="1s-37v-">🟢 1S (3.7V - แบบขนาน)</h3>
+<p>เน้นความปลอดภัยและใช้งานง่าย บอร์ดชาร์จราคาถูก
+- <strong>บอร์ดที่แนะนำ:</strong> TP4056 (1A), IP2312 (3A Fast Charge)
+- <strong>ข้อดี:</strong> ต่อขนานกี่ก้อนก็ได้เพื่อเพิ่มระยะเวลางาน (Capacity), ชาร์จผ่านพอร์ต USB ง่ายมาก
+- <strong>ข้อเสีย:</strong> แรงดันต่ำเกินไปสำหรับขับมอเตอร์ขนาดใหญ่</p>
+<h3 id="2s-74v-">🟡 2S (7.4V - แบบอนุกรม)</h3>
+<p>ให้แรงดันสูงขึ้น เหมาะกับงานขับเคลื่อน
+- <strong>บอร์ดที่แนะนำ:</strong> 2S BMS (10A/20A), 2S Balance Charger
+- <strong>ข้อดี:</strong> แรงดันเพียงพอสำหรับ Driver มอเตอร์ส่วนใหญ่โดยไม่ต้องใช้ Step-up
+- <strong>ข้อเสีย:</strong> <strong>ห้ามลืมใส่ BMS</strong> เพราะถ้าแรงดันแต่ละก้อนไม่เท่ากัน แบตจะเสื่อมไวหรือระเบิดได้</p>
+<h3 id="3s-111v-">🔴 3S (11.1V - แบบอนุกรม)</h3>
+<p>ระบบมาตรฐานสำหรับโดรนและงานกำลังสูง
+- <strong>บอร์ดที่แนะนำ:</strong> 3S BMS (ต้องเลือกแบบมี Balance ในตัว)
+- <strong>ข้อดี:</strong> จ่ายกระแสได้แรง (High Discharge)
+- <strong>ข้อเสีย:</strong> ต้องการเครื่องชาร์จเฉพาะทาง (Balance Charger) หรือบอร์ดชาร์จแยกที่ซับซ้อน</p>
+<hr />
+<h2 id="5">🏷️ 5. เจาะลึก "เบอร์โมดูล" ที่มีขายในท้องตลาด</h2>
+<p>หากคุณค้นหาใน Shopee/Lazada เพื่อหาโมดูลที่ทำงานเหมือนในภาพ หรือเพื่อสร้างเครื่องชาร์จเอง นี่คือ "เบอร์" ที่นิยมที่สุด:</p>
+<h3 id="1-ip2326-type-c-2s3s-boost-charger">🏆 อันดับ 1: IP2326 (Type-C 2S/3S Boost Charger)</h3>
+<p>ตัวนี้คือ "ตัวจบ" สำหรับงาน DIY ในปัจจุบัน เพราะทำหน้าที่เหมือนสายชาร์จในรูปภาพของคุณ 100%
+- <strong>เบอร์ชิป:</strong> <strong>IP2326</strong> (นิยมมาในบอร์ดสีดำ/เขียว มีพอร์ต Type-C)
+- <strong>ความสามารถ:</strong> 
+    - Boost จาก 5V (USB) ขึ้นเป็น 8.4V (2S) หรือ 12.6V (3S) ได้ในตัวเดียว
+    - <strong>มีระบบ Balance ในตัว (สำคัญมาก!)</strong> โดยเชื่อมสาย Center Tap เข้าที่จุด "BM" ของบอร์ด
+- <strong>กระแส:</strong> สูงสุด 2A-4A (ขึ้นอยู่กับแหล่งจ่าย USB QC)</p>
+<h3 id="2-tp5100-1s2s-buck-charger">🥈 อันดับ 2: TP5100 (1S/2S Buck Charger)</h3>
+<p>รุ่นยอดนิยมในอดีต ราคาถูกและทนทาน
+- <strong>เบอร์ชิป:</strong> <strong>TP5100</strong>
+- <strong>ความสามารถ:</strong> ชาร์จ 2S ได้ แต่ <strong>ต้องใช้ไฟ Input 12V-15V</strong> (ใช้ 5V ชาร์จ 2S ไม่ได้เพราะเป็น Buck Converter)
+- <strong>ข้อควรระวัง:</strong> <strong>ไม่มีระบบ Balance ในตัว</strong> ต้องใช้คู่กับบอร์ด BMS แยกต่างหาก</p>
+<hr />
+<h2 id="6">📐 6. ไดอะแกรมการต่อวงจรแต่ละประเภท</h2>
+<h3 id="1s-37v-parallel-">🟢 1S (3.7V - Parallel) - สำหรับความจุสูง</h3>
+<p>เน้นชาร์จง่าย ใช้โมดูล <strong>TP4056</strong>
+<pre class="mermaid"><code>graph LR
+    USB[USB 5V] --&gt; CH[TP4056 Module]
+    CH -- "B+" --&gt; B1_P[+]
+    CH -- "B-" --&gt; B1_N[-]
+    B1_P --- B2_P[+]
+    B1_N --- B2_N[-]</code></pre></p>
+<h3 id="2s-74v-series-ghost-micro-v5">🟡 2S (7.4V - Series) - สำหรับแรงดัน (Ghost Micro V5)</h3>
+<p>ใช้โมดูล <strong>IP2326</strong> (เหมือนในภาพที่คุณส่งมา)
+<pre class="mermaid"><code>graph TD
+    USB[Type-C 5V] --&gt; CH[IP2326 Module]
+    CH -- "B+" --&gt; Cell1_P[+]
+    CH -- "BM (Center)" --&gt; Tap[จุดเชื่อมต่อกลาง]
+    Cell1_N[-] --- Tap
+    Tap --- Cell2_P[+]
+    CH -- "B-" --&gt; Cell2_N[-]</code></pre></p>
+<h3 id="4s-148v-168v">💎 ระบบ 4S (14.8V - 16.8V)</h3>
+<p>สำหรับรถตัดหญ้าไฟฟ้า หรือลำโพงบลูทูธขนาดใหญ่
+- <strong>โมดูลที่แนะนำ:</strong> <strong>XL4015 (แบบ CC/CV)</strong> หรือโมดูล <strong>Step-up/Step-down เฉพาะทาง</strong>
+- <strong>กระแส:</strong> รุ่นยอดนิยมจ่ายได้ถึง <strong>5A</strong> ชาร์จไวมาก
+- <strong>ข้อควรระวัง:</strong> 4S มีพลังงานสะสมสูงมาก <strong>สายไฟต้องหนา</strong> และต้องใช้ <strong>4S BMS ระดับ 40A ขึ้นไป</strong> เท่านั้น</p>
+<hr />
+<h2 id="7-a">📊 7. ตารางสรุปขีดจำกัดกระแส (A) ของแต่ละบอร์ด</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">เบอร์โมดูล</th>
+<th style="text-align: left;">รูปแบบการต่อ</th>
+<th style="text-align: left;">จ่ายกระแสชาร์จ (A)</th>
+<th style="text-align: left;">ระบบ Balance</th>
+<th style="text-align: left;">ราคาโดยประมาณ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>TP4056</strong></td>
+<td style="text-align: left;">1S (3.7V)</td>
+<td style="text-align: left;">1.0A</td>
+<td style="text-align: left;">ไม่จำเป็น</td>
+<td style="text-align: left;">5 - 10 บาท</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IP2312</strong></td>
+<td style="text-align: left;">1S (3.7V)</td>
+<td style="text-align: left;">3.0A (Fast)</td>
+<td style="text-align: left;">ไม่จำเป็น</td>
+<td style="text-align: left;">15 - 25 บาท</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>TP5100</strong></td>
+<td style="text-align: left;">1S/2S</td>
+<td style="text-align: left;">2.0A</td>
+<td style="text-align: left;"><strong>ไม่มี</strong></td>
+<td style="text-align: left;">15 - 20 บาท</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IP2326</strong></td>
+<td style="text-align: left;">2S/3S</td>
+<td style="text-align: left;">2.0A - 4.0A</td>
+<td style="text-align: left;"><strong>มี (Built-in)</strong></td>
+<td style="text-align: left;">35 - 55 บาท</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_1">💡 ข้อสรุปสำหรับคุณ:</h2>
+<p>หากคุณต้องการโมดูลที่ <strong>"ซื้อมาแล้วใช้งานได้เหมือนสายชาร์จในรูป"</strong> และชาร์จผ่าน USB ได้ทันที ผมแนะนำให้หาซื้อโมดูลเบอร์ <strong>IP2326</strong> ครับ เพราะมันคือเทคโนโลยีเดียวกับที่อยู่ในสายชาร์จคุณภาพสูงปัจจุบันครับ</p>
+<blockquote>
+<p>[!IMPORTANT]
+สำหรับหุ่นยนต์ Ghost Micro V5 แนะนำให้ใช้ <strong>2S (7.4V)</strong> เป็นหลักในการขับมอเตอร์ และใช้ <strong>1S (3.7V)</strong> แยกสำหรับ MCU เพื่อป้องกันสัญญาณรบกวนครับ</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  กลับไปด้านบนสุด
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e41\u0e25\u0e49\u0e27", "clipboard.copy": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01", "search.result.more.one": "\u0e2d\u0e35\u0e01\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.more.other": "# \u0e40\u0e1e\u0e34\u0e48\u0e21\u0e40\u0e15\u0e34\u0e21\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.none": "\u0e44\u0e21\u0e48\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.one": "\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.other": "\u0e1e\u0e1a # \u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.placeholder": "\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e40\u0e23\u0e34\u0e48\u0e21\u0e04\u0e49\u0e19\u0e2b\u0e32", "search.result.term.missing": "\u0e44\u0e21\u0e48\u0e1e\u0e1a", "select.version": "\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e40\u0e27\u0e2d\u0e23\u0e4c\u0e0a\u0e31\u0e19"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

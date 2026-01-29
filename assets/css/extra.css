@@ -1,0 +1,34 @@
+/* Custom CSS for Thai language support and enhanced styling */
+
+body {
+  font-family: 'Sarabun', 'Noto Sans Thai', 'Roboto', sans-serif;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  font-weight: 600;
+}
+
+/* Code block enhancements */
+.md-typeset code {
+  font-size: 0.9em;
+}
+
+/* Improve table styling */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* Admonition styling */
+.md-typeset .admonition {
+  border-left: 4px solid;
+}
+
+/* Image captions */
+.md-typeset figure figcaption {
+  text-align: center;
+  font-style: italic;
+  color: var(--md-default-fg-color--light);
+}
